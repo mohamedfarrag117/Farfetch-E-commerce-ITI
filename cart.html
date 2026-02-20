@@ -12,6 +12,20 @@
       }
     </script>
   </head>
+
+  <style>
+    #burger-btn.open span:nth-child(1) {
+      transform: rotate(45deg);
+    }
+    #burger-btn.open span:nth-child(2) {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    #burger-btn.open span:nth-child(3) {
+      transform: rotate(-45deg);
+    }
+  </style>
+
   <body class="bg-gray-50 flex flex-col min-h-screen">
     <nav
       class="bg-[#9f8971] shadow-sm sticky top-0 z-50 w-full overflow-x-hidden"
