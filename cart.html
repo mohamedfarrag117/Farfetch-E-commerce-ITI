@@ -188,10 +188,14 @@
       }
 
       function checkout() {
-        showToast("Order placed successfully!");
-        cart = [];
-        saveAndRender();
-        updateBadge();
+        if (cart.length === 0) {
+          showToast("Place your Order first", "error");
+        } else {
+          showToast("Order placed successfully!", "success");
+          cart = [];
+          saveAndRender();
+          updateBadge();
+        }
       }
 
       function updateBadge() {
@@ -222,9 +226,18 @@
 
       // ====================toast script==================
 
-      function showToast(message) {
+      function showToast(message, type = "success") {
         const toast = document.getElementById("toast");
+
         toast.innerText = message;
+
+        toast.classList.remove("bg-green-400", "bg-red-500");
+
+        if (type === "error") {
+          toast.classList.add("bg-red-500");
+        } else {
+          toast.classList.add("bg-green-400");
+        }
 
         toast.classList.remove(
           "opacity-0",
@@ -246,9 +259,7 @@
 
     <div
       id="toast"
-      class="fixed top-20 right-5 bg-green-400 text-white px-6 py-3 rounded-lg shadow-lg opacity-0 pointer-events-none transform translate-y-[-20px] transition-all duration-300 z-50"
-    >
-      Order placed successfully!
-    </div>
+      class="fixed top-20 right-5 bg-green-400 text-white px-6 py-3 z-50 pointer-events-none rounded-lg shadow-lg opacity-0 transform translate-y-[-20px] transition-all duration-300"
+    ></div>
   </body>
 </html>
