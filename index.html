@@ -377,23 +377,37 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-      window.addEventListener("load", function () {
-        const swiper = new Swiper(".mySwiper", {
+      document.addEventListener("DOMContentLoaded", function () {
+        const swiperEl = document.querySelector(".mySwiper");
+
+        if (!swiperEl) {
+          console.error("Swiper container not found");
+          return;
+        }
+
+        const swiper = new Swiper(swiperEl, {
           loop: true,
+          slidesPerView: 1,
+          spaceBetween: 0,
+          speed: 800,
+
           autoplay: {
-            delay: 3000,
+            delay: 5000,
+            disableOnInteraction: false,
           },
+
           pagination: {
             el: ".swiper-pagination",
             clickable: true,
           },
+
           navigation: {
             nextEl: ".swiper-button-next",
             prevEl: ".swiper-button-prev",
           },
-          observer: true,
-          observeParents: true,
         });
+
+        console.log("Swiper initialized:", swiper);
       });
     </script>
 
