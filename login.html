@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | FARFETCH</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+      if (localStorage.getItem("currentUser")) {
+        window.location.href = "index.html";
+      }
+    </script>
+  </head>
+  <body
+    class="bg-gray-100 flex items-center justify-center h-screen bg-[url('login.jpg')] bg-cover bg-center"
+  >
+    <div class="bg-white p-8 mx-10 rounded-xl shadow-2xl w-full max-w-md">
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-[#9f8971]">FARFETCH</h1>
+        <p class="text-gray-500">Please sign in to continue</p>
+      </div>
+
+      <form id="loginForm" class="flex flex-col justify-center gap-8">
+        <div>
+          <label class="block text-sm font-medium text-gray-700"
+            >Email Address</label
+          >
+          <input
+            type="email"
+            id="email"
+            required
+            class="mt-1 w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-[#9f8971] focus:ring-2 outline-none"
+            placeholder="enter your email"
+          />
+        </div>
+        <div>
+          <label class="block text-gray-700 text-sm font-medium"
+            >Password</label
+          >
+          <input
+            type="password"
+            id="password"
+            required
+            class="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#9f8971] outline-none"
+            placeholder="••••••••"
+          />
+        </div>
+        <button
+          type="submit"
+          class="w-full bg-[#9f8971] text-white py-3 rounded border border-transparent hover:bg-white hover:text-[#9f8971] hover:border-[#9f8971] hover:outline-none transition duration-700 ease-in-out"
+        >
+          Sign In
+        </button>
+      </form>
+    </div>
+
+    <script>
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const email = document.getElementById("email").value;
+
+          const user = { email: email, name: email.split("@")[0] };
+          localStorage.setItem("currentUser", JSON.stringify(user));
+
+          window.location.href = "index.html";
+        });
+    </script>
+  </body>
+</html>

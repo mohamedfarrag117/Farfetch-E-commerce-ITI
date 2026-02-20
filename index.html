@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home | FARFETCH</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script>
+      if (!localStorage.getItem("currentUser")) {
+        window.location.href = "login.html";
+      }
+    </script>
+  </head>
+
+  <style>
+    #burger-btn.open span:nth-child(1) {
+      transform: rotate(45deg);
+    }
+    #burger-btn.open span:nth-child(2) {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    #burger-btn.open span:nth-child(3) {
+      transform: rotate(-45deg);
+    }
+
+    :root {
+      --swiper-theme-color: #9f8971;
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+      transition: color 500ms ease-in-out;
+    }
+
+    .swiper-button-next:hover,
+    .swiper-button-prev:hover {
+      color: white;
+    }
+
+    .swiper-pagination-bullet {
+      background: #ccc;
+      opacity: 1;
+      padding: 6px;
+    }
+
+    .swiper-pagination-bullet-active {
+      background: #9f8971;
+    }
+  </style>
+  <body class="bg-gray-50 flex flex-col min-h-screen">
+    <nav
+      class="bg-[#9f8971] shadow-sm sticky top-0 z-50 w-full overflow-x-hidden"
+    >
+      <div class="container mx-auto px-4 py-4 flex justify-between items-start">
+        <a
+          href="index.html"
+          class="text-2xl font-bold text-[#222] flex items-center gap-2"
+        >
+          <i class="ph ph-coat-hanger"></i> FARFETCH
+        </a>
+        <div class="menu hidden md:flex items-center gap-2">
+          <a href="index.html" class="text-white font-bold">Home</a>
+          <a href="products.html" class="text-[#222] hover:text-white"
+            >Products</a
+          >
+          <a
+            href="cart.html"
+            class="text-[#222] hover:text-white relative mr-1"
+          >
+            <i class="ph ph-shopping-cart text-xl"></i>
+            <span
+              class="cart-badge absolute -top-2 -right-2 bg-white text-[#9f8971] text-xs rounded-full w-5 h-5 flex items-center justify-center"
+            ></span>
+          </a>
+          <button
+            onclick="logout()"
+            class="text-sm text-[#222] hover:text-white font-medium border border-[#222] px-3 py-1 rounded hover:text-white"
+          >
+            Logout
+          </button>
+        </div>
+        <button
+          onclick="toggleMenu()"
+          class="md:hidden flex flex-col justify-around w-6 h-6 border-none bg-transparent cursor-pointer absolute right-2 top-4 group"
+          id="burger-btn"
+        >
+          <span
+            class="w-full h-0.5 bg-gray-800 transition-all duration-300 origin-left"
+          ></span>
+          <span
+            class="w-full h-0.5 bg-gray-800 transition-all duration-300"
+          ></span>
+          <span
+            class="w-full h-0.5 bg-gray-800 transition-all duration-300 origin-left"
+          ></span>
+        </button>
+
+        <div
+          id="mobile-menu-container"
+          class="hidden md:hidden bg-[#9f8971] p-4 flex flex-col gap-4 animate-fade-in"
+        >
+          <a href="index.html" class="text-white font-bold">Home</a>
+          <a href="products.html" class="text-[#222]">Products</a>
+          <a
+            href="cart.html"
+            class="text-[#222] flex justify-between items-center"
+          >
+            Cart
+            <span
+              class="cart-badge bg-white text-[#9f8971] text-xs rounded-full px-2"
+              >0</span
+            >
+          </a>
+          <button onclick="logout()" class="text-left text-[#222]">
+            Logout
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ==================================== HERO SECTION ======================================= -->
+    <header class="relative bg-gray-900 text-white h-[500px] flex items-center">
+      <img
+        src="home.jpg"
+        class="absolute inset-0 w-full h-full object-cover opacity-40"
+      />
+      <div
+        class="container mx-auto px-4 relative z-10 text-center md:text-left"
+      >
+        <h1 class="text-5xl font-bold mb-4">Summer Collection 2026</h1>
+        <p class="text-xl mb-8 text-[#969090] max-w-lg">
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda
+          tempore ipsa vel, obcaecati a vitae.
+        </p>
+        <a
+          href="products.html"
+          class="bg-[#9f8971] text-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-[#9f8971] transition"
+          >Shop Now</a
+        >
+      </div>
+    </header>
+
+    <!-- ==================================== CAROUSEL SECTION ======================================= -->
+
+    <section class="py-12 md:py-20">
+      <h2
+        class="text-3xl lg:text-5xl font-bold text-[#222] leading-tight mb-6 text-center"
+      >
+        New Collections
+      </h2>
+      <div class="swiper mySwiper h-56 md:h-96">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <img src="carousel1.jpg" class="w-full h-full object-cover" />
+          </div>
+          <div class="swiper-slide">
+            <img src="carousel2.jpg" class="w-full h-full object-cover" />
+          </div>
+          <div class="swiper-slide">
+            <img src="carousel3.jpg" class="w-full h-full object-cover" />
+          </div>
+        </div>
+
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </section>
+
+    <!-- ==================================== CELEBRATE SECTION ======================================= -->
+    <section class="py-12 md:py-20">
+      <div class="container mx-auto px-4">
+        <div
+          class="rounded-lg overflow-hidden flex flex-col md:flex-row items-center"
+        >
+          <div
+            class="w-full md:w-1/2 p-8 md:p-16 lg:p-24 flex flex-col justify-center text-center md:text-left"
+          >
+            <h2
+              class="text-3xl lg:text-5xl font-bold text-[#222] leading-tight mb-6"
+            >
+              Styles to celebrate
+            </h2>
+            <p class="text-[#969090] text-lg mb-8 leading-relaxed">
+              You’ve got the look — Burberry, Tom Ford and more have the
+              accessories. Shop the final touches to your Eid ensembles.
+            </p>
+            <div>
+              <a
+                href="products.html"
+                class="bg-[#222] text-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-[#9f8971] hover:border-2 hover:border-[#222] transition"
+                >Shop Now</a
+              >
+            </div>
+          </div>
+
+          <div class="w-full md:w-1/2">
+            <img
+              src="celeberate.jpeg"
+              alt="Luxury Shoes"
+              class="w-full h-full object-cover rounded-xl"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================== BRANDS SECTION ======================================= -->
+
+    <section class="container mx-auto px-4 py-12">
+      <h3 class="text-2xl lg:text-5xl font-bold text-[#222] leading-tight mb-6">
+        Brands of the moment
+      </h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="relative group overflow-hidden cursor-pointer h-[500px]">
+          <img
+            src="brand1.jpeg"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-8"
+          >
+            <span class="text-white text-2xl font-medium tracking-wide"
+              >Brunello Cucinelli</span
+            >
+          </div>
+        </div>
+
+        <div class="relative group overflow-hidden cursor-pointer h-[500px]">
+          <img
+            src="brand2.jpeg"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-8"
+          >
+            <span class="text-white text-2xl font-medium tracking-wide"
+              >Moncler</span
+            >
+          </div>
+        </div>
+
+        <div class="relative group overflow-hidden cursor-pointer h-[500px]">
+          <img
+            src="brand3.jpeg"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-8"
+          >
+            <span class="text-white text-2xl font-medium tracking-wide"
+              >AMI Paris</span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================== EID CLOSET SECTION =======================================  -->
+
+    <section class="py-12 md:py-20">
+      <div class="container mx-auto px-4">
+        <div
+          class="rounded-lg overflow-hidden flex flex-col md:flex-row items-center"
+        >
+          <div class="w-full md:w-1/2">
+            <img
+              src="eid.jpeg"
+              alt="Luxury Shoes"
+              class="w-full h-full object-cover rounded-xl"
+            />
+          </div>
+          <div
+            class="w-full md:w-1/2 p-8 md:p-16 lg:p-24 flex flex-col justify-center text-center md:text-left"
+          >
+            <h2
+              class="text-3xl lg:text-5xl font-bold text-[#222] leading-tight mb-6"
+            >
+              Your Eid closet
+            </h2>
+            <p class="text-[#969090] text-lg mb-8 leading-relaxed">
+              From Carolina Herrera’s elegant kaftan to Anabela Chan’s modern
+              jewels, these elegant Eid styles were made for celebrating in
+            </p>
+            <div>
+              <a
+                href="products.html"
+                class="bg-[#222] text-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-[#9f8971] hover:border-2 hover:border-[#222] transition"
+                >Shop Now</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================== REVIEWS SECTION ======================================= -->
+    <section class="py-16 container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-12">Customer Reviews</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white p-6 rounded-xl shadow">
+          <img
+            src="test1.jpg"
+            alt=""
+            class="w-16 h-16 rounded-full object-cover"
+          />
+          <p class="text-gray-600">
+            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus,
+            unde?"
+          </p>
+          <p class="font-bold mt-4 text-[#9f8971]">Jackson D.</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow">
+          <img
+            src="test2.jpg"
+            alt=""
+            class="w-16 h-16 rounded-full object-cover"
+          />
+          <p class="text-gray-600">
+            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus,
+            unde?"
+          </p>
+          <p class="font-bold mt-4 text-[#9f8971]">Joe M.</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow">
+          <img
+            src="test3.jpg"
+            alt=""
+            class="w-16 h-16 rounded-full object-cover"
+          />
+          <p class="text-gray-600">
+            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus,
+            unde?"
+          </p>
+          <p class="font-bold mt-4 text-[#9f8971]">Mike T.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer
+      class="bg-[#9f8971] text-white py-8 mt-auto text-center flex items-center justify-around px-2"
+    >
+      <div class="flex justify-center gap-2 mb-4">
+        <a
+          href="#"
+          class="bg-white text-[#9f8971] w-8 h-8 rounded-full flex items-center justify-center hover:bg-opacity-90 transition-all"
+        >
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+        <a
+          href="#"
+          class="bg-white text-[#9f8971] w-8 h-8 rounded-full flex items-center justify-center hover:bg-opacity-90 transition-all"
+        >
+          <i class="fa-brands fa-x-twitter"></i>
+        </a>
+        <a
+          href="#"
+          class="bg-white text-[#9f8971] w-8 h-8 rounded-full flex items-center justify-center hover:bg-opacity-90 transition-all"
+        >
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+      </div>
+
+      <p class="text-base">&copy; 2026 FARFETCH. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+      window.addEventListener("load", function () {
+        const swiper = new Swiper(".mySwiper", {
+          loop: true,
+          autoplay: {
+            delay: 3000,
+          },
+          pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+          },
+          navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+          },
+          observer: true,
+          observeParents: true,
+        });
+      });
+    </script>
+
+    <script>
+      function logout() {
+        localStorage.removeItem("currentUser");
+        window.location.href = "login.html";
+      }
+
+      const cart = JSON.parse(localStorage.getItem("myCart")) || [];
+      const count = cart.reduce((acc, item) => acc + item.quantity, 0);
+      const badges = document.querySelectorAll(".cart-badge");
+      badges.forEach((b) => {
+        b.innerText = count;
+      });
+
+      function toggleMenu() {
+        const mobileMenu = document.getElementById("mobile-menu-container");
+        const btn = document.getElementById("burger-btn");
+        console.log("clicked");
+        mobileMenu.classList.toggle("hidden");
+
+        btn.classList.toggle("open");
+      }
+    </script>
+  </body>
+</html>

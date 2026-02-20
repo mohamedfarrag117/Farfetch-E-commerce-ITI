@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Products | FARFETCH</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+      if (!localStorage.getItem("currentUser")) {
+        window.location.href = "login.html";
+      }
+    </script>
+  </head>
+  <body class="bg-gray-50 flex flex-col min-h-screen">
+    <nav
+      class="bg-[#9f8971] shadow-sm sticky top-0 z-50 w-full overflow-x-hidden"
+    >
+      <div class="container mx-auto px-4 py-4 flex justify-between items-start">
+        <a
+          href="index.html"
+          class="text-2xl font-bold text-[#222] flex items-center gap-2"
+        >
+          <i class="ph ph-coat-hanger"></i> FARFETCH
+        </a>
+        <div class="menu hidden md:flex items-center gap-2">
+          <a href="index.html" class="text-[#222] hover:text-white">Home</a>
+          <a href="products.html" class="text-white font-bold">Products</a>
+          <a
+            href="cart.html"
+            class="text-[#222] hover:text-white relative mr-1"
+          >
+            <i class="ph ph-shopping-cart text-xl"></i>
+            <span
+              class="cart-badge absolute -top-2 -right-2 bg-white text-[#9f8971] text-xs rounded-full w-5 h-5 flex items-center justify-center"
+              >0</span
+            >
+          </a>
+          <button
+            onclick="logout()"
+            class="text-sm text-[#222] hover:text-white font-medium border border-[#222] px-3 py-1 rounded hover:text-white"
+          >
+            Logout
+          </button>
+        </div>
+        <button
+          onclick="toggleMenu()"
+          class="md:hidden flex flex-col justify-around w-6 h-6 border-none bg-transparent cursor-pointer absolute right-2 top-4 group"
+          id="burger-btn"
+        >
+          <span
+            class="w-full h-0.5 bg-gray-800 transition-all duration-300 origin-left"
+          ></span>
+          <span
+            class="w-full h-0.5 bg-gray-800 transition-all duration-300"
+          ></span>
+          <span
+            class="w-full h-0.5 bg-gray-800 transition-all duration-300 origin-left"
+          ></span>
+        </button>
+
+        <div
+          id="mobile-menu-container"
+          class="hidden md:hidden bg-[#9f8971] p-4 flex flex-col gap-4 animate-fade-in"
+        >
+          <a href="index.html" class="text-white font-bold">Home</a>
+          <a href="products.html" class="text-[#222]">Products</a>
+          <a
+            href="cart.html"
+            class="text-[#222] flex justify-between items-center"
+          >
+            Cart
+            <span
+              class="cart-badge bg-white text-[#9f8971] text-xs rounded-full px-2"
+              >0</span
+            >
+          </a>
+          <button onclick="logout()" class="text-left text-[#222]">
+            Logout
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <section class="container mx-auto px-4 py-12">
+      <h2 class="text-3xl font-bold mb-8">Products</h2>
+      <div
+        id="product-container"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+      ></div>
+    </section>
+
+    <script>
+      const products = [
+        {
+          id: 1,
+          name: "AMI Paris",
+          price: 25,
+          img: "clothes1.webp",
+        },
+        {
+          id: 2,
+          name: "Adidas",
+          price: 30,
+          img: "clothes2.webp",
+        },
+        {
+          id: 3,
+          name: "Jacquemus",
+          price: 50,
+          img: "clothes3.webp",
+        },
+        {
+          id: 4,
+          name: "Polo Ralph Lauren",
+          price: 75,
+          img: "clothes4.webp",
+        },
+        {
+          id: 5,
+          name: "Represent",
+          price: 100,
+          img: "clothes5.webp",
+        },
+        {
+          id: 6,
+          name: "Alexander McQueen",
+          price: 200,
+          img: "clothes6.webp",
+        },
+      ];
+
+      const container = document.getElementById("product-container");
+      container.innerHTML = products
+        .map(
+          (p) => `
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition">
+                <div class="h-96 overflow-hidden">
+                    <img src="${p.img}" class="w-full h-96 object-contain hover:scale-105 transition duration-500">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-lg font-bold">${p.name}</h3>
+                    <p class="text-gray-500 mb-4">$${p.price}</p>
+                    <button onclick="addToCart(${p.id})"   class="w-full bg-[#9f8971] text-white py-2 rounded border border-transparent hover:bg-white hover:text-[#9f8971] hover:border-[#9f8971] hover:outline-none transition">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+        `,
+        )
+        .join("");
+
+      function addToCart(id) {
+        let cart = JSON.parse(localStorage.getItem("myCart")) || [];
+        const product = products.find((p) => p.id === id);
+
+        const existingItem = cart.find((item) => item.id === id);
+        if (existingItem) {
+          existingItem.quantity++;
+        } else {
+          cart.push({ ...product, quantity: 1 });
+        }
+
+        localStorage.setItem("myCart", JSON.stringify(cart));
+        updateBadge();
+        showToast("Item added to cart!");
+      }
+
+      function updateBadge() {
+        const cart = JSON.parse(localStorage.getItem("myCart")) || [];
+        const count = cart.reduce((acc, item) => acc + item.quantity, 0);
+        const badges = document.querySelectorAll(".cart-badge");
+        badges.forEach((b) => {
+          b.innerText = count;
+        });
+      }
+
+      function toggleMenu() {
+        const mobileMenu = document.getElementById("mobile-menu-container");
+        const btn = document.getElementById("burger-btn");
+        console.log("clicked");
+
+        mobileMenu.classList.toggle("hidden");
+
+        btn.classList.toggle("open");
+      }
+
+      function logout() {
+        localStorage.removeItem("currentUser");
+        window.location.href = "login.html";
+      }
+
+      updateBadge();
+
+      // ====================toast script==================
+
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.innerText = message;
+
+        toast.classList.remove(
+          "opacity-0",
+          "pointer-events-none",
+          "translate-y-[-20px]",
+        );
+        toast.classList.add("opacity-100", "translate-y-0");
+
+        setTimeout(() => {
+          toast.classList.add(
+            "opacity-0",
+            "pointer-events-none",
+            "translate-y-[-20px]",
+          );
+          toast.classList.remove("opacity-100", "translate-y-0");
+        }, 3000);
+      }
+    </script>
+
+    <div
+      id="toast"
+      class="fixed top-20 right-5 bg-green-400 text-white px-6 py-3 rounded-lg shadow-lg opacity-0 pointer-events-none transform translate-y-[-20px] transition-all duration-300 z-50"
+    >
+      Item added to cart!
+    </div>
+  </body>
+</html>
